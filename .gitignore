@@ -198,6 +198,6 @@ pip-selfcheck.json
 .history
 
 ### MISC ###
-scratch/.*/
+scratch/.*
 
 # End of https://www.gitignore.io/api/venv,python,django,visualstudiocode
