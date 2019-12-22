@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'apis',
 ]
 
@@ -77,9 +78,9 @@ WSGI_APPLICATION = 'eventplus.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'gis',
+        'NAME': 'ep_gis_db',
         'USER': 'user001',
-        'PASSWORD': '123456789',
+        'PASSWORD': 'testpassword',
         'HOST': 'localhost',
         'PORT': '5432',
     }
