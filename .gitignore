@@ -197,4 +197,7 @@ pip-selfcheck.json
 # Ignore all local history of files
 .history
 
+### MISC ###
+scratch/.*/
+
 # End of https://www.gitignore.io/api/venv,python,django,visualstudiocode
