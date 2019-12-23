@@ -4,4 +4,4 @@ from .models import Event
 
 @admin.register(Event)
 class EventAdmin(OSMGeoAdmin):
-    list_display = ('host', 'place')
+    list_display = ('host', 'place_name')
