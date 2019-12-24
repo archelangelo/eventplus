@@ -16,38 +16,55 @@ class Client():
             'fields': 'name,place_id,geometry',
         }
         try:
-            r = requests.get(url=Client.GOOGLE_PLACE_DETAILS_URL, params=params)
+            response = requests.get(url=Client.GOOGLE_PLACE_DETAILS_URL, params=params)
         except requests.exceptions.RequestException as err:
             print(err)
-            raise FieldError('Error getting response from Google API: {}'.format(err))
-        if r.status_code != 200:
-            raise FieldError('Error getting response from Google API: Status code {}'.format(r.status_code))
-        return r.json()
+            raise FieldError(f'Error getting response from Google API: {err}')
+        if response.status_code != 200:
+            raise FieldError(f'Error getting response from Google API: Status code {response.status_code}')
+        response_body = response.json()
+        status = response_body.get('status', '')
+        if status != 'OK':
+            raise FieldError(f'Error getting response from Google API: Response status {status}')
+        return response_body
 
-    def nearby_request(self):
+    def nearby_request(self, location, radius = 1500):
         params = {
             'key': Client.GOOGLE_API_KEY,
-            'fields': 'name,place_id,geometry',
+            'location': location,
+            'radius': radius,
         }
         try:
-            r = requests.get(url=Client.GOOGLE_PLACE_NEARBY_URL, params=params)
+            response = requests.get(url=Client.GOOGLE_PLACE_NEARBY_URL, params=params)
         except requests.exceptions.RequestException as err:
             print(err)
-            raise FieldError('Error getting response from Google API: {}'.format(err))
-        if r.status_code != 200:
-            raise FieldError('Error getting response from Google API: Status code {}'.format(r.status_code))
-        return r.json()
+            raise FieldError(f'Error getting response from Google API: {err}')
+        if response.status_code != 200:
+            raise FieldError(f'Error getting response from Google API: Status code {response.status_code}')
+        response_body = response.json()
+        status = response_body.get('status', '')
+        if status != 'OK':
+            raise FieldError(f'Error getting response from Google API: Response status {status}')
+        return response_body
 
-    def textsearch_request(self):
+    def textsearch_request(self, query, location=None, radius=None):
         params = {
             'key': Client.GOOGLE_API_KEY,
-            'fields': 'name,place_id,geometry',
+            'query': query,
         }
+        if location:
+            params['location'] = location
+        if radius:
+            params['radius'] = radius
         try:
-            r = requests.get(url=Client.GOOGLE_PLACE_TEXT_URL, params=params)
+            response = requests.get(url=Client.GOOGLE_PLACE_TEXT_URL, params=params)
         except requests.exceptions.RequestException as err:
             print(err)
-            raise FieldError('Error getting response from Google API: {}'.format(err))
-        if r.status_code != 200:
-            raise FieldError('Error getting response from Google API: Status code {}'.format(r.status_code))
-        return r.json()
+            raise FieldError(f'Error getting response from Google API: {err}')
+        if response.status_code != 200:
+            raise FieldError(f'Error getting response from Google API: Status code {response.status_code}')
+        response_body = response.json()
+        status = response_body.get('status', '')
+        if status != 'OK':
+            raise FieldError(f'Error getting response from Google API: Response status {status}')
+        return response_body
