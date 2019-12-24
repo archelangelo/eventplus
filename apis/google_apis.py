@@ -1,5 +1,6 @@
 import requests
 import os
+from django.core.exceptions import FieldError
 
 class Client():
 
@@ -9,11 +10,11 @@ class Client():
     def details_request(self, place_id = ''):
         params = {
             'place_id': place_id,
-            'key': GOOGLE_API_KEY,
+            'key': Client.GOOGLE_API_KEY,
             'fields': 'name,place_id,geometry',
         }
         try:
-            r = requests.get(url=GOOGLE_PLACE_DETAILS_URL, params=params)
+            r = requests.get(url=Client.GOOGLE_PLACE_DETAILS_URL, params=params)
         except requests.exceptions.RequestException as err:
             print(err)
             raise FieldError('Error getting response from Google API: {}'.format(err))

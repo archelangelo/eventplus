@@ -5,7 +5,7 @@ from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D
 import datetime
 
-from google_apis import Client
+from .google_apis import Client
 
 User = get_user_model()
 SRID = 4326 # Using WGS 84
