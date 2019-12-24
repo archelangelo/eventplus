@@ -9,7 +9,8 @@ class Client():
     GOOGLE_PLACE_NEARBY_URL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
     GOOGLE_PLACE_TEXT_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
 
-    def details_request(self, place_id = ''):
+    @classmethod
+    def details_request(cls, place_id = ''):
         params = {
             'place_id': place_id,
             'key': Client.GOOGLE_API_KEY,
@@ -28,7 +29,8 @@ class Client():
             raise FieldError(f'Error getting response from Google API: Response status {status}')
         return response_body
 
-    def nearby_request(self, location, radius = 1500):
+    @classmethod
+    def nearby_request(cls, location, radius = 1500):
         params = {
             'key': Client.GOOGLE_API_KEY,
             'location': location,
@@ -47,7 +49,8 @@ class Client():
             raise FieldError(f'Error getting response from Google API: Response status {status}')
         return response_body
 
-    def textsearch_request(self, query, location=None, radius=None):
+    @classmethod
+    def textsearch_request(cls, query, location=None, radius=None):
         params = {
             'key': Client.GOOGLE_API_KEY,
             'query': query,
