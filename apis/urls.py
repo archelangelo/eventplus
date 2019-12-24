@@ -24,3 +24,5 @@ router.register(r'users', views.UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 ]
+
+handler400 = 'rest_framework.exceptions.bad_request'
