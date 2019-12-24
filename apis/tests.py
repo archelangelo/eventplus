@@ -6,7 +6,7 @@ class GoogleAPITestCase(TestCase):
         self.client = Client()
         self.place_id = 'ChIJN1t_tDeuEmsRUsoyG83frY4'
     
-    def test_detail_request(self):
-        response_body = self.client.details_request(self.place_id)
+    def test_details_request(self):
         self.assertIsNot(Client.GOOGLE_API_KEY, '')
+        response_body = self.client.details_request(self.place_id)
         self.assertEqual(response_body['status'], 'OK')
