@@ -19,7 +19,7 @@ class EventManager(models.Manager):
         return self.create(host=host, place_id=place_id, place_name=place_name, location=location, time=time)
 
 class Event(models.Model):
-    host = models.ForeignKey(User, on_delete=models.CASCADE)
+    host = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
     place_id = models.CharField(max_length=100)
     place_name = models.CharField(max_length=100)
     location = models.PointField()
