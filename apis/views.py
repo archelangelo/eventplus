@@ -14,12 +14,12 @@ class EventViewSet(ModelViewSet):
     queryset = Event.objects.all()
 
     @action(detail=False)
-    def get_nearby(self, request):
+    def nearby(self, request):
         params = request.query_params
         try:
             lng = float(params['lng'])
             lat = float(params['lat'])
-            distance = float(params['distance'])
+            distance = float(params['dist'])
         except KeyError:
             raise ValidationError(detail='Bad query parameters.')
 
