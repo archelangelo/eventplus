@@ -11,6 +11,7 @@ from rest_framework import status
 
 from .serializers import EventSerializer, UserSerializer
 from .models import Event
+from .google_apis import Client
 
 class EventViewSet(ModelViewSet):
     queryset = Event.objects.all()
@@ -37,6 +38,9 @@ class EventViewSet(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+    def create(self, request):
+        return Response({'status': 'in progress'})
+
 class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -56,7 +60,32 @@ class UserViewSet(ReadOnlyModelViewSet):
             return Response({'status': 'bad place id'}, status=status.HTTP_400_BAD_REQUEST)
         event = Event.objects.create_event(host=user, place_id=place_id)
         event.save()
-        return Response({'status': 'event created'})
+        return Response(data={'status': 'created'})
 
     def get_events(self, request, pk):
         return Response({'status', 'in progress'})
+
+class GoogleAPINearbyView(APIView):
+    
+    def get(self, request):
+        params = request.query_params
+        try:
+            location = params['location']
+        except KeyError:
+            raise ValidationError(detail='Bad location parameter.')
+        radius = params.get('radius', 1500)
+        response_body = Client.nearby_request(location=location, radius=radius)
+        return Response(data=response_body)
+
+class GoogleAPITextsearchView(APIView):
+    
+    def get(self, request):
+        params = request.query_params
+        try:
+            query = params['query']
+        except KeyError:
+            raise ValidationError(detail='Bad query parameter.')
+        location = params.get('location', None)
+        radius = params.get('radius', None)
+        response_body = Client.textsearch_request(query, location, radius)
+        return Response(data=response_body)

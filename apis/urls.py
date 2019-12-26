@@ -23,6 +23,8 @@ router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('nearbyevents', views.GoogleAPINearbyView.as_view()),
+    path('textsearchevents', views.GoogleAPITextsearchView.as_view()),
 ]
 
 handler400 = 'rest_framework.exceptions.bad_request'
