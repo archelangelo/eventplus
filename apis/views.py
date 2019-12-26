@@ -49,6 +49,7 @@ class NearbyEvents(GenericAPIView):
 class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    authentication_classes = (TokenAuthentication, )
 
     @action(detail=True, methods=['get', 'post'])
     def events(self, request, pk=None):
@@ -60,6 +61,9 @@ class UserViewSet(ReadOnlyModelViewSet):
 
     def create_event(self, request, pk):
         user = self.get_object()
+        if user != request.user:
+            return Response({'status': 'not authorized to create event for this user'},
+                status=status.HTTP_401_UNAUTHORIZED)
         place_id = request.data.get('place_id', None)
         if place_id == None:
             return Response({'status': 'bad place id'}, status=status.HTTP_400_BAD_REQUEST)
@@ -69,6 +73,18 @@ class UserViewSet(ReadOnlyModelViewSet):
 
     def get_events(self, request, pk):
         return Response({'status', 'in progress'})
+
+class EventsView(APIView):
+    authentication_classes = (TokenAuthentication, )
+
+    def post(self, request):
+        user = request.user
+        place_id = request.data.get('place_id', None)
+        if place_id == None:
+            return Response({'status': 'bad place id'}, status=status.HTTP_400_BAD_REQUEST)
+        event = Event.objects.create_event(host=user, place_id=place_id)
+        event.save()
+        return Response(data={'status': 'created'})
 
 class GoogleAPINearbyView(APIView):
     
