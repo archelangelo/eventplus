@@ -18,13 +18,14 @@ from rest_framework.routers import DefaultRouter
 
 # Router
 router = DefaultRouter()
-router.register(r'events', views.EventViewSet)
 router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('nearbyevents', views.GoogleAPINearbyView.as_view()),
-    path('textsearchevents', views.GoogleAPITextsearchView.as_view()),
+    path('events/<int:pk>/', views.EventDetail.as_view(), name='event-detail'),
+    path('events/nearby/', views.NearbyEvents.as_view(), name='event-nearby'),
+    path('places/nearby/', views.GoogleAPINearbyView.as_view(), name='place-nearby'),
+    path('places/textsearch/', views.GoogleAPITextsearchView.as_view(), name='place-textsearch'),
 ]
 
 handler400 = 'rest_framework.exceptions.bad_request'

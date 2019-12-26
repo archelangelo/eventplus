@@ -4,21 +4,28 @@ from django.contrib.gis.measure import D
 from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import ValidationError
 from rest_framework import status
 
 from .serializers import EventSerializer, UserSerializer
 from .models import Event
 from .google_apis import Client
+from .permissions import IsHostOrReadOnly
 
-class EventViewSet(ModelViewSet):
+class EventDetail(RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsHostOrReadOnly, )
 
-    @action(detail=False, methods=['get'])
-    def nearby(self, request):
+class NearbyEvents(APIView):
+    authentication_classes = (TokenAuthentication, )
+    
+    def get(self, request, format=None):
         params = request.query_params
         try:
             lng = float(params['lng'])
@@ -37,9 +44,6 @@ class EventViewSet(ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
-    def create(self, request):
-        return Response({'status': 'in progress'})
 
 class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
