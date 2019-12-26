@@ -7,9 +7,6 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
         model = Event
         fields = ('id', 'host', 'place_id', 'location', 'time')
 
-    def create(self, validated_data):
-        return Event.objects.create(**validated_data)
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
