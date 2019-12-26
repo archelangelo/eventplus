@@ -87,6 +87,7 @@ class EventsView(APIView):
         return Response(data={'status': 'created'})
 
 class GoogleAPINearbyView(APIView):
+    authentication_classes = (TokenAuthentication, )
     
     def get(self, request):
         params = request.query_params
@@ -99,6 +100,7 @@ class GoogleAPINearbyView(APIView):
         return Response(data=response_body)
 
 class GoogleAPITextsearchView(APIView):
+    authentication_classes = (TokenAuthentication, )
     
     def get(self, request):
         params = request.query_params
