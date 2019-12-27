@@ -79,7 +79,6 @@ class UserViewSet(ReadOnlyModelViewSet):
         if place_id == None:
             return Response({'status': 'bad place id'}, status=status.HTTP_400_BAD_REQUEST)
         event = Event.objects.create_event(host=user, place_id=place_id)
-        event.save()
         return Response(data={'status': 'created'})
 
     def get_events(self, request, pk):
