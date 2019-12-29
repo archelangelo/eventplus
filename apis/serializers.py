@@ -9,7 +9,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     host = UserSerializer(many=False, read_only=True)
+    time = serializers.DateTimeField()
 
     class Meta:
         model = Event
         fields = ('id', 'host', 'place_id', 'place_name', 'location', 'time')
+        read_only_fields = ('id', 'place_name', 'location')
+
+    def create(self, validated_data):
+        return Event.objects.create_event(**validated_data)
+
