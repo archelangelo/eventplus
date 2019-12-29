@@ -1,24 +1,25 @@
 # Models
 ## Event
 Example usage (suppose you already have `PLACES_API_KEY` environment variable set up):
+
 ```python
-In [1]: from django.contrib.auth import get_user_model 
-   ...: from apis.models import Event
-   ...: User = get_user_model()
-   ...: user = User.objects.get(pk=1)                                                                                                                                                                                          
-
-In [2]: ev = Event.create(host=user, place_id='ChIJN1t_tDeuEmsRUsoyG83frY4')                                                                                                                                                   
-
-In [3]: ev                                                                                                                                                                                                                     
-Out[3]: <Event: Google Australia>
-
-In [4]: ev.full_clean()                                                                                                                                                                                                        
-
-In [5]: ev.save()                                                                                                                                                                                                              
-
-In [6]: Event.objects.all()                                                                                                                                                                                                    
-Out[6]: <QuerySet [<Event: Harbour Bar & Kitchen>, <Event: Google Australia>]>
+from django.contrib.auth.models import User
+from apis.models import Event
+user = User.objects.get(pk=1)
+Event.objects.all()
 ```
+
+Output: `<QuerySet [<Event: Google Australia>, <Event: Harbour Bar & Kitchen>, <Event: Google Australia>]>`
+
+Now we can create a new event by calling `Event.objects.create_event()`:
+
+```python
+Event.objects.create_event(host=user, place_id='ChIJN1t_tDeuEmsRUsoyG83frY4')
+Event.objects.all()
+```
+
+Output: ` <QuerySet [<Event: Google Australia>, <Event: Harbour Bar & Kitchen>, <Event: Google Australia>, <Event: Google Australia>]>`
+
 # GeoDjango Setup
 Follow [this page](https://docs.djangoproject.com/en/3.0/ref/contrib/gis/install/geolibs/) and [this page](https://realpython.com/location-based-app-with-geodjango-tutorial/) for more info.  
 Run the following command to install the required libraries for GeoDjango
