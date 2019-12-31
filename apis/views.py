@@ -46,16 +46,24 @@ class NearbyEvents(GenericAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-class EventsView(APIView):
+class EventCreateView(CreateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
     authentication_classes = (TokenAuthentication, )
+    
+    def perform_create(self, serializer):
+        serializer.save(host=self.request.user)
 
-    def post(self, request):
-        user = request.user
-        place_id = request.data.get('place_id', None)
-        if place_id == None:
-            return Response({'status': 'bad place id'}, status=status.HTTP_400_BAD_REQUEST)
-        event = Event.objects.create_event(host=user, place_id=place_id)
-        return Response(data={'status': 'created'})
+# class EventCreateView(APIView):
+#     authentication_classes = (TokenAuthentication, )
+
+#     def post(self, request):
+#         user = request.user
+#         place_id = request.data.get('place_id', None)
+#         if place_id == None:
+#             return Response({'status': 'bad place id'}, status=status.HTTP_400_BAD_REQUEST)
+#         event = Event.objects.create_event(host=user, place_id=place_id)
+#         return Response(data={'status': 'created'})
 
 class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
