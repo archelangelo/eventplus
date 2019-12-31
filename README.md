@@ -57,6 +57,14 @@ Output:
 'ChIJkeO_AzquEmsRUpGQn1ZK7Tg'
 ```
 
+### Google Places API key
+You will need to [get an API key](https://developers.google.com/places/web-service/get-api-key) for the server to use the Google Places API.
+
+Export the key as an environment variable:
+```bash
+export PLACES_API_KEY=<Your API Key Here>
+```
+
 ## Models
 ### Event
 Example usage (suppose you already have `PLACES_API_KEY` environment variable set up):
