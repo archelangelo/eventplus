@@ -23,7 +23,7 @@ class Event(models.Model):
     place_id = models.CharField(max_length=100)
     place_name = models.CharField(max_length=100)
     location = models.PointField()
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField()
 
     objects = EventManager()
 
