@@ -5,6 +5,7 @@ from .models import Event, UserProfile
 User = get_user_model()
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    profile_photo = serializers.ImageField(use_url=True)
     class Meta:
         model = UserProfile
         fields = ('profile_photo',)
