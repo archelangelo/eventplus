@@ -1,11 +1,20 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import Event
+from .models import Event, UserProfile
+
+User = get_user_model()
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ('profile_photo',)
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    profile = UserProfileSerializer(many=False, read_only=True)
+
     class Meta:
         model = User
-        fields = ('id', 'username')
+        fields = ('id', 'username', 'profile')
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     host = UserSerializer(many=False, read_only=True)

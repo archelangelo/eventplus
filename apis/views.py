@@ -1,20 +1,22 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D
 from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
-from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import ValidationError
 from rest_framework import status
 
-from .serializers import EventSerializer, UserSerializer
-from .models import Event
+from .serializers import EventSerializer, UserSerializer, UserProfileSerializer
+from .models import Event, UserProfile
 from .google_apis import Client
 from .permissions import IsHostOrReadOnly
+
+User = get_user_model()
 
 class EventDetail(RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
@@ -118,3 +120,8 @@ class GoogleAPITextsearchView(APIView):
         radius = params.get('radius', None)
         response_body = Client.textsearch_request(query, location, radius)
         return Response(data=response_body)
+
+class UserProfileDetails(RetrieveAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    authentication_classes = (TokenAuthentication, )

@@ -27,6 +27,7 @@ urlpatterns = [
     path('events/', views.EventCreateView.as_view(), name='events'),
     path('places/nearby/', views.GoogleAPINearbyView.as_view(), name='place-nearby'),
     path('places/textsearch/', views.GoogleAPITextsearchView.as_view(), name='place-textsearch'),
+    # path('users/', views.GoogleAPITextsearchView.as_view(), name='place-textsearch'),
 ]
 
 handler400 = 'rest_framework.exceptions.bad_request'

@@ -132,6 +132,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# User uploaded media
+# TODO: Need to update before deploying to prod, see https://docs.djangoproject.com/en/3.0/howto/static-files/#serving-files-uploaded-by-a-user-during-development
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

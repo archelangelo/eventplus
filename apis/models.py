@@ -1,5 +1,9 @@
+import os
+from django.conf import settings
 from django.contrib.gis.db import models
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.core.exceptions import FieldError
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D
@@ -29,3 +33,20 @@ class Event(models.Model):
 
     def __str__(self):
         return self.place_name
+
+def get_profile_photo_path(instance, filename):
+    return os.path.join(settings.MEDIA_ROOT, 'user_{0}/{1}'.format(instance.user.id, filename))
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
+    profile_photo = models.ImageField(upload_to=get_profile_photo_path, null=True, blank=True)
+
+# Create and save user profile when saving user data
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

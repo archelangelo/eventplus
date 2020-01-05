@@ -1,7 +1,9 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from .google_apis import Client
 from .models import Event
+
+User = get_user_model()
 
 class GoogleAPITestCase(TestCase):
     def setUp(self):
