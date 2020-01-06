@@ -5,6 +5,7 @@ from .models import Event, UserProfile
 User = get_user_model()
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    profile_photo = serializers.ImageField(use_url=True)
     class Meta:
         model = UserProfile
         fields = ('profile_photo',)
@@ -14,7 +15,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'profile')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'profile',)
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     host = UserSerializer(many=False, read_only=True)

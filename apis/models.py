@@ -35,7 +35,7 @@ class Event(models.Model):
         return self.place_name
 
 def get_profile_photo_path(instance, filename):
-    return os.path.join(settings.MEDIA_ROOT, 'user_{0}/{1}'.format(instance.user.id, filename))
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
