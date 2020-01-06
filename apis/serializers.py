@@ -15,7 +15,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'profile')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'profile',)
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     host = UserSerializer(many=False, read_only=True)

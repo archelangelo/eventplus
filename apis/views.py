@@ -18,7 +18,7 @@ from .permissions import IsHostOrReadOnly
 
 User = get_user_model()
 
-class EventDetail(RetrieveUpdateDestroyAPIView):
+class EventDetails(RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     authentication_classes = (TokenAuthentication, )
