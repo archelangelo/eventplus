@@ -1,7 +1,10 @@
-# Event Plus Backend
-An app that lets you create and find nearby events! When you have something fun to do, invite others. If you are looking forward to meet new people and explore, look for nearby events!
+# Invite Backend
+An app that lets you create and find nearby events! When you have something fun to do, invite others. If you are looking forward to meet new people and explore, look for nearby events! Please checkout our [mobile app](https://github.com/rockspore/pal-finder)!
 
 This repo is a Django REST framework backend service that provides the APIs that the app uses.
+
+## Demo
+<img src='https://github.com/rockspore/pal-finder/blob/master/demo/invite_demo.gif' height=500>
 
 ### Example usage:
 Find nearby events:
