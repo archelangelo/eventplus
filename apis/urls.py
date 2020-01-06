@@ -22,7 +22,7 @@ router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('events/<int:pk>/', views.EventDetail.as_view(), name='event-detail'),
+    path('events/<int:pk>/', views.EventDetails.as_view(), name='event-detail'),
     path('events/nearby/', views.NearbyEvents.as_view(), name='event-nearby'),
     path('events/', views.EventCreateView.as_view(), name='events'),
     path('places/nearby/', views.GoogleAPINearbyView.as_view(), name='place-nearby'),
